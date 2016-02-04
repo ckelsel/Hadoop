@@ -41,7 +41,7 @@ public class App {
         
         try {
         	Configuration conf = new Configuration();
-        	conf.set("mapred.job.tracker", "localhost:50020");
+        	conf.set("mapred.job.tracker", "localhost:9001");
         	
 			Job job = Job.getInstance(conf);
 			
