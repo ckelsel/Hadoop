@@ -27,5 +27,7 @@ public class AppMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
 	  public void map(LongWritable key, Text value, Context context)
 	      throws IOException, InterruptedException {
 		String line = value.toString();
+		
+		
 	}
 }

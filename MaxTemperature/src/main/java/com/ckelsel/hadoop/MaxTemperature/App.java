@@ -20,6 +20,7 @@ package com.ckelsel.hadoop.MaxTemperature;
 
 import java.io.IOException;
 
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.mapreduce.Job;
@@ -35,14 +36,25 @@ public class App {
             System.exit(-1);
         }
         
+        System.out.println(args[0]);
+        System.out.println(args[1]);
+        
         try {
-			Job job = new Job();
+        	Configuration conf = new Configuration();
+        	conf.set("mapred.job.tracker", "localhost:50020");
+        	
+			Job job = Job.getInstance(conf);
 			
 			job.setJarByClass(App.class);
 			job.setJobName("Max temperature");
 			
 			FileInputFormat.addInputPath(job, new Path(args[0]));
-			FileOutputFormat.setOutputPath(job, new Path(args[1]));
+			
+			// delete output if exists
+			Path outPath = new Path(args[1]);
+			outPath.getFileSystem(conf).delete(outPath, true);
+			
+			FileOutputFormat.setOutputPath(job, outPath);
 			
 			job.setOutputKeyClass(Text.class);
 			job.setOutputValueClass(IntWritable.class);
